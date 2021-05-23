@@ -1,56 +1,66 @@
+from region import Region
+from setup import generate_deck
+
 class Game:
 
     def __init__(
         self, 
         name, 
-        jokers,
-        components = [],
+        regions = {},
         complete = False,
-        won = null
+        win = None
     ):
-    self.name = name
-    self.jokers = jokers
-    self.components = components
-    self.complete = complete
-    self.won = won
+        self.name = name
+        self.regions = regions
+        self.win = win
 
-    def add_component(self, name, face_up, all_visible, cards, max_cards):
-        self.components.append(Component())
-        return(self.components)
-        
-    def remove_component(self, component):
-        self.components.remove(component)
-        return(self.components)
+    def add_region(self, name, max_cards=-1, layout='stack'):
+        r = Region(
+            name=name,
+            max_cards=max_cards,
+            layout=layout
+        )
+        self.regions[name] = r
+        return(r)
     
     def check_win_condition(self):
-        if False:
-            self.complete = True
-            self.win = True
-        else:
-            self.complete = False
-            self.win = False
-        return(self.complete)
+        return(self.win)
     
     def check_lose_condition(self):
-        if False:
-            self.complete = True
-            self.win = False
+        return(self.win)
+    
+    def deck_depleted(self, deck_region, n_required):
+        if len(deck_region.cards) < n_required:
+            return(True)
         else:
-            self.complete = False
-            self.win = False
-        return(self.complete)
-    
-    def deal(self):
+            return(False)
+
+    def draw(self, region_from, region_to, n_cards, face_up=True):
+        if self.deck_depleted(region_from, n_cards):
+            return(False)
+        for i in range(n_cards):
+            card = region_from.cards.pop()
+            card.face_up = face_up
+            region_to.cards.append(card)
+        return(True)
+
+    def yank(self, region_from, region_to, n_cards, face_up=True):
+        ''' same as draw, but from the bottom of the pile (beginning of the array)'''
+        if self.deck_depleted(region_from, n_cards):
+            return(False)
+        for i in range(n_cards):
+            card = region_from.cards[0]
+            card.face_up = face_up
+            region_to.cards.append(card)
+            region_from.cards.remove(card)
+        return(True)
+
+    def print_play_area(self):
         pass
+
+
+
+
+
+
     
-    def generate_deck(jokers = self.jokers):
-        suits = ['H','S','C','D']
-        values = range(13)
-        labels = ['A','2','3','4','5','6','7','8','9','10','J','Q','K']
-        deck = {}
-        
-        for i,suit in enumerate(suits):
-            for value in values:
-                card = (j,suit + labels[j])
-                deck{i} = card
-        return(deck)

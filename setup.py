@@ -1,25 +1,29 @@
-import pandas as pd
-import numpy as np
+from card import Card
 
-def generate_deck(jokers=False):
+def generate_deck(jokers=False, facecards=True):
 
-	suits = ['H', 'D', 'C', 'S']
-	values = ['A', '2', '3', '4', '5', '6', '7',
-		'8', '9', '10', 'J', 'Q', 'K']
+    suits = ['H', 'D', 'C', 'S']
+    if facecards:
+        values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    else:
+        values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        
 
-	deck = []
+    deck = []
 
-	counter = 0
-	for i in range(len(suits)):
-		suit = suits[i]
-		for j in range(len(values)):
-			value = values[j]
-			card = Card(counter, suit, value)
-			counter += 1
-			deck.append(card)
+    counter = 0
+    for i in range(len(suits)):
+        suit = suits[i]
+        for j in range(len(values)):
+            value = values[j]
+            tmp = Card(counter, suit, value)
+            deck.append(tmp)
+            counter += 1
 
-	if jokers:
-		deck.append(Card(counter + 1, suit=null, value='jo1'))
-		deck.append(Card(counter + 2, suit=null, value='jo2'))
+    if jokers:
+        joker1 = Card(counter + 1, suit=null, value='jo1')
+        joker2 = Card(counter + 2, suit=null, value='jo2')
+        deck.append(joker1)
+        deck.append(joker2)
 
-	return(deck)
+    return(deck)

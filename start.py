@@ -1,13 +1,21 @@
-name = 'test'
+from game import Game
 
-testgame = Game(
-    name, 
-    jokers = False
-)
+def main():
+	name = 'test'
 
-testgame.add_component(
-    'Hand',
-    face_up = True,
-    all_visible = True,
-    cards = []
-)
+	testgame = Game(
+    	name, 
+    	jokers = False
+	)
+
+	testgame.add_region(
+    	'Hand',
+    	face_up = True,
+    	all_visible = True
+    )
+
+	return(testgame)
+
+
+if __name__ == '__main__':
+	main()
