@@ -57,6 +57,13 @@ class Game:
 
     def print_play_area(self):
         pass
+        
+    def trigger_endgame(self):
+        print('GAME OVER')
+        if self.win:
+            print('YOU WIN :)')
+        else:
+            print('Better luck next time.')
 
 
 
