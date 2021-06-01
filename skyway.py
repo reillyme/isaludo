@@ -3,6 +3,7 @@ from setup import generate_deck
 from game import Game
 import itertools
 import numpy as np
+from pandas import value_counts
 
 class Skyway(Game):
 
@@ -87,13 +88,22 @@ class Skyway(Game):
     def check_win_condition(self):
         all_cards = []
         for k in self.regions.keys():
-            row = int(k[-2:-1])
-            col = int(k[-1])
             if(k.startswith('play')):
-                for c in s.regions[k].cards:
-                    all_cards[k,i] = 
-        if 
-        self.win=False
+                row = int(k[-2:-1])
+                col = int(k[-1])
+                for c in self.regions[k].cards:
+                    all_cards.append((row,col,c))
+        all_cards = np.array(all_cards)
+
+        suits = np.array([x[2].suit for x in all_cards])
+        # check that a win is even possible with the suit count on the table
+        if (len(value_counts(suits)) < 4) | (any([x < 5 for x in value_counts(suits)])):
+            return(None)
+        for suit in ['H','S','D','C']:
+            suit_cards = all_cards[np.where(suits == suit)]
+            values = [x[2].id for x in suit_cards]
+
+        return(False) #  no win
 
     def reset_market(self):
         #self.check_win_condition()

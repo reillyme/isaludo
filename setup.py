@@ -1,8 +1,17 @@
 from card import Card
 
-def generate_deck(jokers=False, facecards=True):
+def generate_deck(
+    jokers=False, 
+    facecards=True, 
+    color='both'
+):
 
-    suits = ['H', 'D', 'C', 'S']
+    if color == 'red':
+        suits = ['H', 'D']
+    elif color == 'black':
+        suits = ['C', 'S']
+    else:
+        suits = ['H', 'D', 'C', 'S']
     if facecards:
         values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
     else:
